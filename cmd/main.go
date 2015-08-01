@@ -41,8 +41,7 @@ func bals() bool {
 		if strings.Contains(r.Text, "レイバンの") {
 			ret = true
 			fmt.Println(r.Text)
-			id := r.Id
-			api.DeleteTweet(id, true)
+			api.DeleteTweet(r.Id, true)
 		}
 	}
 	return ret
