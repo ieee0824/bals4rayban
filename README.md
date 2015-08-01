@@ -4,5 +4,5 @@
 github.com/ChimeraCoder/anaconda  
 ## 使い方
 conf-example.jsonをconf.jsonにリネームする  
-ConsumerKey, ConsumerSelect, AccessToken, AccessTokenSelectを設定する  
+conf.jsonにConsumerKey, ConsumerSelect, AccessToken, AccessTokenSelectを設定する  
 cmdディレクトリに移動してgo run main.goと呪文を唱える
