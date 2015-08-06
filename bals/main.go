@@ -14,10 +14,14 @@ type Conf struct {
 	ConsumerSelect    string
 	AccessToken       string
 	AccessTokenSelect string
+	MailAddress       string
+	MailPassword      string
+	SMTPServer        string
+	SMTPPort          string
 }
 
 func createSettingTemp() {
-	c := Conf{ConsumerKey: "", ConsumerSelect: "", AccessToken: "", AccessTokenSelect: ""}
+	c := Conf{ConsumerKey: "", ConsumerSelect: "", AccessToken: "", AccessTokenSelect: "", MailAddress: "", MailPassword: "", SMTPServer: ""}
 	js, _ := json.Marshal(c)
 	ioutil.WriteFile("../conf-example.json", js, 0644)
 }

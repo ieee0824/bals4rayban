@@ -1,1 +1,10 @@
-{"ConsumerKey":"","ConsumerSelect":"","AccessToken":"","AccessTokenSelect":""}
+{
+    "ConsumerKey": "",
+    "ConsumerSelect": "",
+    "AccessToken": "",
+    "AccessTokenSelect": "",
+    "MailAddress": "",
+    "MailPassword": "",
+    "SMTPServer": "",
+    "SMTPPort": ""
+}

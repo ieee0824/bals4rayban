@@ -2,9 +2,11 @@ package main
 
 import (
 	"encoding/json"
-	"fmt"
 	"io/ioutil"
+	"log"
+	"net/smtp"
 	"strings"
+	"time"
 
 	"github.com/ChimeraCoder/anaconda"
 	"github.com/otiai10/twistream"
@@ -15,6 +17,10 @@ type Conf struct {
 	ConsumerSelect    string
 	AccessToken       string
 	AccessTokenSelect string
+	MailAddress       string
+	MailPassword      string
+	SMTPServer        string
+	SMTPPort          string
 }
 
 func readConf() *Conf {
@@ -22,6 +28,26 @@ func readConf() *Conf {
 	var ret Conf
 	json.Unmarshal(js, &ret)
 	return &ret
+}
+
+func alert(upTime int64) int64 {
+	c := readConf()
+	t := time.Now()
+	unix := t.Unix()
+	if unix-upTime > 60 {
+		auth := smtp.PlainAuth("", c.MailAddress, c.MailPassword, c.SMTPServer)
+		err := smtp.SendMail(
+			c.SMTPServer+":"+c.SMTPPort,
+			auth,
+			c.MailAddress,
+			[]string{c.MailAddress},
+			[]byte("raybanスパム感染の疑いあり"),
+		)
+		if err != nil {
+			log.Fatalln(err)
+		}
+	}
+	return unix
 }
 
 func main() {
@@ -37,17 +63,14 @@ func main() {
 	anaconda.SetConsumerKey(c.ConsumerKey)
 	anaconda.SetConsumerSecret(c.ConsumerSelect)
 	api := anaconda.NewTwitterApi(c.AccessToken, c.AccessTokenSelect)
-	fmt.Println(api)
+	uptime := int64(0)
 
 	// Listen timeline
 	for {
 		status := <-timeline.Listen()
-		//fmt.Println(status.User.Name)
-		//fmt.Println(status.User.Id)
-		//fmt.Println(status.Text)
-		//if strings.Contains(status.Text, "レイバンの") {
 		if strings.Contains(status.Text, "レイバンの") {
 			api.DeleteTweet(status.Id, true)
+			uptime = alert(uptime)
 		}
 	}
 }
