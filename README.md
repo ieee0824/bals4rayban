@@ -2,6 +2,7 @@
 レイバンスパムに制裁を, タイムラインに平穏を  
 ## 使用ライブラリ
 github.com/ChimeraCoder/anaconda  
+github.com/otiai10/twistream  
 ## 使い方  
 ### 削除ツール
 conf-example.jsonをconf.jsonにリネームする  
